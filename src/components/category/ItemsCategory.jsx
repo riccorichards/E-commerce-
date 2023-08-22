@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { mobileDevice } from './../../responsive';
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
 flex: 1;
@@ -14,7 +15,7 @@ const Image = styled.img`
 width: 100%;
 height: 80vh;
 object-fit: cover;
-${mobileDevice({height: "40vh"})}
+${mobileDevice({ height: "40vh" })}
 `;
 
 const Info = styled.div`
@@ -30,15 +31,20 @@ font-size: 55px;
 font-weight: 900;
 color: white;
 text-shadow: 0 0 4.5px black;
-${mobileDevice({textAlign: "center"})}
+${mobileDevice({ textAlign: "center" })}
 
 `;
 const Button = styled.button`
 padding: 10px;
+cursor: pointer;
+`;
+
+const LinkStyle = styled(Link)`
+text-decoration: none;
 font-size: 20px;
 letter-spacing: 2px;
 cursor: pointer;
-color: gray
+color: gray;
 `;
 const ItemsCategory = ({ item }) => {
 	return (
@@ -46,7 +52,7 @@ const ItemsCategory = ({ item }) => {
 			<Image src={item.imgUrl} />
 			<Info>
 				<Title>{item.title}</Title>
-				<Button>SHOP NOW</Button>
+				<Button><LinkStyle to={`products/${item.category}`}>SHOP NOW</LinkStyle></Button>
 			</Info>
 		</Container>
 	)

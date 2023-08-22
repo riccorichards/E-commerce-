@@ -7,15 +7,6 @@ import jacket from "./assets/category/jacket.jpg";
 import lounge from "./assets/category/lounge.jpg";
 import shirt from "./assets/category/shirt.jpg";
 
-import converse from "./assets/popular/converse.jpg";
-import cap from "./assets/popular/cap.jpg";
-import blackShirts from "./assets/popular/blackShirts.jpg";
-import blackCap from "./assets/popular/blackCap.jpg";
-import glases from "./assets/popular/glases.jpg";
-import miniDress from "./assets/popular/miniDress.jpg";
-import whiteDress from "./assets/popular/whiteDress.jpg";
-import whiteShirts from "./assets/popular/whiteShirts.jpg";
-import yellowShirts from "./assets/popular/yellowShirts.jpg";
 
 
 export const SlideData = [
@@ -54,56 +45,23 @@ export const category = [
 	{
 		id: 0,
 		title: "Light Jacket",
-		imgUrl: jacket
+		imgUrl: jacket,
+		category: "Jacket"
 	},
 	{
 		id: 1,
 		title: "Loungewear Love",
-		imgUrl: lounge
+		imgUrl: lounge,
+		category: "Loungewear"
 	},
 	{
 		id: 2,
 		title: "Shirt Style",
 		imgUrl: shirt
+		, category: "Shirt"
 	},
 ]
 
-export const popular = [
-	{
-		id: 0,
-		img: converse
-	},
-	{
-		id: 1,
-		img: cap
-	},
-	{
-		id: 2,
-		img: blackShirts
-	},
-	{
-		id: 3,
-		img: blackCap
-	},
-	{
-		id: 4,
-		img: glases
-	},
-	{
-		id: 5,
-		img: miniDress
-	},
-	{
-		id: 6,
-		img: whiteDress
-	},
-	{
-		id: 7,
-		img: whiteShirts
-	},
-	{
-		id: 8,
-		img: yellowShirts
-	},
-]
+
+
 

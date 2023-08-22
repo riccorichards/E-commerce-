@@ -1,5 +1,6 @@
 import { styled } from "styled-components"
 import { AiOutlineHeart, AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai"
+import { Link } from 'react-router-dom';
 
 
 const Info = styled.div`
@@ -55,7 +56,11 @@ const Product = ({ item }) => {
 			<Image src={item.img} />
 			<Info>
 				<InfoItems><AiOutlineHeart /></InfoItems>
-				<InfoItems><AiOutlineSearch /></InfoItems>
+				<InfoItems>
+					<Link to={`/product/${item._id}`}>
+						<AiOutlineSearch />
+					</Link>
+				</InfoItems>
 				<InfoItems><AiOutlineShoppingCart /></InfoItems>
 			</Info>
 		</Container>

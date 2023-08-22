@@ -1,10 +1,12 @@
 import { styled } from 'styled-components';
-import NavBar from './../components/NavBar';
+import NavBar from './../components/header/NavBar';
 import Announcement from './../components/Announcement';
 import Products from './../components/PopularProducts/Products';
 import NewsLetter from './../components/NewsLetter';
 import Footer from './../components/Footer';
 import { mobileDevice } from '../responsive';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Container = styled.div`
 `;
@@ -13,7 +15,7 @@ const FilterContainer = styled.div`
 display: flex;
 justify-content: space-between;
 padding: 20px;
-${mobileDevice({flexDirection: "column", padding: "5px"})}
+${mobileDevice({ flexDirection: "column", padding: "5px" })}
 `;
 
 const Title = styled.h1`
@@ -56,39 +58,47 @@ const Option = styled.option`
 `;
 
 const ProductsLists = () => {
+	const { category } = useParams()
+	const [filters, setFilter] = useState({})
+	const [sort, serSort] = useState("Newest")
+
+	const filterHendler = e => {
+		const { name, value } = e.target
+		setFilter(prev => ({ ...prev, [name]: value }))
+	}
+
+
 	return (
 		<Container>
 			<NavBar />
 			<Announcement />
-			<Title>Dresses</Title>
+			<Title>{category}</Title>
 			<FilterContainer>
 				<FilterMethods><FilterMethodsText>Filter Products:</FilterMethodsText>
-					<Select>
-						<Option disabled selected>Color</Option>
-						<Option>Green</Option>
-						<Option>Blue</Option>
-						<Option>Red</Option>
-						<Option>Yellow</Option>
-						<Option>Orange</Option>
+					<Select name='color' onChange={filterHendler}>
+						<Option value="Green">Green</Option>
+						<Option value="Blue">Blue</Option>
+						<Option value="Red">Red</Option>
+						<Option value="Yellow">Yellow</Option>
+						<Option value="Orange">Orange</Option>
 					</Select>
-					<Select>
-						<Option disabled selected>Size</Option>
-						<Option>XS</Option>
-						<Option>S</Option>
-						<Option>M</Option>
-						<Option>L</Option>
-						<Option>XL</Option>
+					<Select name='size' onChange={filterHendler}>
+						<Option value="XS">XS</Option>
+						<Option value="S">S</Option>
+						<Option value="M">M</Option>
+						<Option value="L">L</Option>
+						<Option value="XL">XL</Option>
 					</Select>
 				</FilterMethods>
 				<SortMethods><SortMethodsText>Sort Products:</SortMethodsText>
-					<Select>
-						<Option>Newest</Option>
-						<Option>Price (asc)</Option>
-						<Option>Price (desc)</Option>
+					<Select onChange={(e) => serSort(e.target.value)}>
+						<Option value="Newest">Newest</Option>
+						<Option value="Price (asc)">Price (asc)</Option>
+						<Option value="Price (desc)">Price (desc)</Option>
 					</Select>
 				</SortMethods>
 			</FilterContainer>
-			<Products />
+			<Products category={category} filters={filters} sort={sort} />
 			<NewsLetter />
 			<Footer />
 		</Container>

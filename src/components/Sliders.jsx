@@ -11,7 +11,7 @@ display: flex;
 position: relative;
 overflow-x: hidden;
 overflow-y: hidden;
-${mobileDevice({display: "none"})}
+${mobileDevice({ display: "none" })}
 `;
 
 const Arrow = styled.div`
@@ -36,7 +36,7 @@ z-index: 2;
 const Wrapper = styled.div`
 display: flex;
 transition: all 1.5s ease-in-out;
-transform: translateX(${props => props.sliderCounter * -100}vw);
+transform: translateX(${props => props.slidercounter * -100}vw);
 `;
 
 const Slide = styled.div`
@@ -86,12 +86,12 @@ letter-spacing: 2px;
 `;
 
 const Sliders = () => {
-	const [sliderCounter, setSliderCounter] = useState(0)
+	const [slidercounter, setSlidercounter] = useState(0)
 	const onCLickSlider = (direction) => {
 		if (direction === "left") {
-			setSliderCounter(sliderCounter > 0 ? sliderCounter - 1 : 3)
+			setSlidercounter(slidercounter > 0 ? slidercounter - 1 : 3)
 		} else {
-			setSliderCounter(sliderCounter < 3 ? sliderCounter + 1 : 0)
+			setSlidercounter(slidercounter < 3 ? slidercounter + 1 : 0)
 		}
 	}
 	return (
@@ -99,7 +99,7 @@ const Sliders = () => {
 			<Arrow direction="left" onClick={() => onCLickSlider("left")}>
 				<BsFillArrowLeftCircleFill />
 			</Arrow>
-			<Wrapper sliderCounter={sliderCounter}>
+			<Wrapper slidercounter={slidercounter}>
 				{SlideData.map(item => (
 					<Slide key={item.id} bg={item.bg}>
 						<ImgContainer>
