@@ -5,9 +5,9 @@ import Footer from './../components/Footer';
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai"
 import { mobileDevice } from '../responsive';
 import { useSelector } from 'react-redux';
-import StripeCheckoutProps from "react-stripe-checkout"
-import { useEffect, useState } from 'react';
-import { userRequest } from "../publicRequest"
+import CloseIcon from '@mui/icons-material/Close';
+import React from "react"
+import Wishlist from './../components/Wishlist';
 
 const Container = styled.div`
 `;
@@ -81,6 +81,7 @@ const ProductWrapper = styled.div`
 display: flex;
 gap: 15px;
 ${mobileDevice({ flexWrap: "wrap" })}
+position: relative;
 `;
 
 const ProductImg = styled.img`
@@ -211,33 +212,24 @@ transition: all .25s ease;
 }
 `;
 
-const Cart = () => {
-	const cart = useSelector(state => state.cart)
-	const [stripeToken, setStripeToken] = useState(null)
-	const onToken = (token) => {
-		setStripeToken(token)
-	}
-	const KEY = "pk_test_51Nf3pXDzzupGtRHjcP4uT2yH1NHBVQOJGLQfwCQqTFi9TWChHsKHKy8TCIsP9HvlEP3JBHDfasPvDYxxluRXsU8Q00nRsxtJo8"
+const CloseWrapper = styled.span`
+position: absolute;
+right: 15px;
+cursor: pointer;
 
-	useEffect(() => {
-		const makeRequest = async () => {
-			try {
-				const { data } = await userRequest.post("/checkout/payment", {
-					tokenId: stripeToken._id,
-					amount: cart.total * 100
-				}, {
-					headers: {
-						Authorization: `Bearer ${KEY}`
-					}
-				})
-				console.log(data)
-			} catch (err) {
-				throw err
-			}
-		}
-		stripeToken && makeRequest()
-	}, [cart, stripeToken])
-	const amount = parseFloat(cart.total).toFixed(2)
+&:active{
+	transform: scale(0.95)
+}
+`;
+
+const Cart = () => {
+	let { products, total, wishlist } = useSelector(state => state.cart)
+
+	const amount = parseFloat(total).toFixed(2)
+
+	const removeProductFromCart = (productId) => {
+		return products = products.filter(product => product.id !== productId)
+	}
 	return (
 		<Container>
 			<NavBar />
@@ -248,34 +240,37 @@ const Cart = () => {
 					<CartHeaderWrapper>
 						<HeaderButtons color='white'>CONTINUE SHOPPING</HeaderButtons>
 						<HeaderTexts>
-							<HeaderText>Shopping bag (2)</HeaderText>
-							<HeaderText>Your Wishlist (0)</HeaderText>
+							<HeaderText>Shopping bag ({products.length})</HeaderText>
+							<HeaderText>Your Wishlist ({wishlist.length})</HeaderText>
 						</HeaderTexts>
 						<HeaderButtons>CHECKOUT NOW</HeaderButtons>
 					</CartHeaderWrapper>
 				</CartHeader>
 				<CartBody>
 					<CartProductSpace>
-						{cart.products?.map(product => (
-							<ProductWrapper key={product.title}>
-								<ProductImg src='https://i.pinimg.com/564x/59/0e/d9/590ed9d10e61a4b7400360e694eed9ca.jpg' />
-								<ProductDetails>
-									<ProductTitle><b>Product:</b>{product.title}</ProductTitle>
-									<ProductID><b>ID:</b>{product._id}</ProductID>
-									<ProductColor bgcolor={product.color} />
-									<ProductSIze><b>Size:</b>{product.size}</ProductSIze>
-								</ProductDetails>
-								<ProductPrice>
-									<AmountWapper>
-										<AmountMinus><AiFillMinusCircle /></AmountMinus>
-										<Amount>{product.quantity}</Amount>
-										<Amountaplus><AiFillPlusCircle /></Amountaplus>
-									</AmountWapper>
-									<ItemPrice>${parseFloat(product.price * product.quantity).toFixed(2)}</ItemPrice>
-								</ProductPrice>
-							</ProductWrapper>
+						{products?.map(product => (
+							<React.Fragment key={product._id}>
+								<ProductWrapper key={product.title}>
+									<CloseWrapper><CloseIcon onClick={() => removeProductFromCart(product._id)} /></CloseWrapper>
+									<ProductImg src={`http://localhost:8080${product.img}`} />
+									<ProductDetails>
+										<ProductTitle><b>Product:</b>{product.title}</ProductTitle>
+										<ProductID><b>ID:</b>{product._id}</ProductID>
+										<ProductColor bgcolor={product.color} />
+										<ProductSIze><b>Size:</b>{product.size}</ProductSIze>
+									</ProductDetails>
+									<ProductPrice>
+										<AmountWapper>
+											<AmountMinus><AiFillMinusCircle /></AmountMinus>
+											<Amount>{product.quantity}</Amount>
+											<Amountaplus><AiFillPlusCircle /></Amountaplus>
+										</AmountWapper>
+										<ItemPrice>${parseFloat(product.price * product.quantity).toFixed(2)}</ItemPrice>
+									</ProductPrice>
+								</ProductWrapper>
+								<Hr />
+							</React.Fragment>
 						))}
-						<Hr />
 					</CartProductSpace>
 					<CartSummeryWrapper>
 						<CartSummeryTitle>ORDER SUMMERY</CartSummeryTitle>
@@ -297,20 +292,11 @@ const Cart = () => {
 								<CartSummeryDetailsInfo><b>${amount}</b></CartSummeryDetailsInfo>
 							</CartSummeryDetailsItems>
 						</CartSummeryDetails>
-						<StripeCheckoutProps
-							name='RiccoShop'
-							billingAddress
-							shippingAddress
-							stripeKey={KEY}
-							description={`Here is total amount ${amount}`}
-							amount={amount * 100}
-							token={onToken}
-						>
-							<CartSummeryButton>BUY NOW</CartSummeryButton>
-						</StripeCheckoutProps>
+						<CartSummeryButton>BUY NOW</CartSummeryButton>
 					</CartSummeryWrapper>
 				</CartBody>
 			</Wrapper>
+			<Wishlist />
 			<Footer />
 		</Container>
 	)

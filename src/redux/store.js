@@ -3,16 +3,18 @@ import CartSlice from "./Slice/CartSlice.js"
 import UserSlice from "./Slice/UserSlice.js"
 import { persistReducer, persistStore, REGISTER, REHYDRATE, PERSIST, FLUSH, PAUSE, PURGE } from "redux-persist";
 import storage from 'redux-persist/lib/storage'
+import GetUsersSlice from "./Slice/GetUsersSlice.js";
 
 
 const persistConfig = {
-	key: "root",
+	key: "E-commerce",
 	storage,
 }
 
 const rootReducer = combineReducers({
 	cart: CartSlice,
-	login: UserSlice
+	login: UserSlice,
+	allUsers: GetUsersSlice
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

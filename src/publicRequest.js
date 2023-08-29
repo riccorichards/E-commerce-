@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const BASE_URL = "http://localhost:8080/"
-const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZDdiZDg5YjRmNTI1NTNkMmIwNjJkOSIsImlhdCI6MTY5MjE4ODE2MCwiZXhwIjoxNjkyNjIwMTYwfQ.xqXM_ygvKlGpid8vHbTC1MlD7_R70rh-74GqeDZPEOc"
+const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTRkYjA0NTZlMjgwNGRkNWM5ODkxMCIsImlhdCI6MTY5MzI1NzM4NSwiZXhwIjoxNjkzNjg5Mzg1fQ.Hmv8SOcpDz3GvlkYnx9AhBihFRjBOmbLyGOrCfgbsck"
 
 
 export const publicRequest = axios.create({
@@ -12,6 +12,9 @@ export const publicRequest = axios.create({
 
 export const userRequest = axios.create({
 	baseURL: BASE_URL,
-	headers: `Bearer ${TOKEN}`
+	headers: {
+		token: `Bearer ${TOKEN}`,
+		"Content-Type": "application/json",
+	}
 })
 

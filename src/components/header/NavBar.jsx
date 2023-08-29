@@ -13,7 +13,6 @@ margin-bottom: 20px;
 `
 const Wrapper = styled.div`
 display: flex;
-justify-content: space-between;
 padding: 15px;
 align-items: center;
 ${mobileDevice({ padding: "10px", alignItems: "center" })}
@@ -21,9 +20,11 @@ ${mobileDevice({ padding: "10px", alignItems: "center" })}
 `;
 
 const LogoWrapper = styled.div`
+flex: 1;
 `
 
 const ProfileSide = styled.div`
+flex: 1;
 display: flex;
 gap: 15px;
 margin-right: 10px;

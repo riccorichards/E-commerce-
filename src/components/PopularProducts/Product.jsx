@@ -1,6 +1,8 @@
 import { styled } from "styled-components"
 import { AiOutlineHeart, AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai"
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addWishlist } from "../../redux/Slice/CartSlice";
 
 
 const Info = styled.div`
@@ -49,13 +51,17 @@ transition: all 0.35s ease;
 	background-color: #b4c7a3;
 }
 `;
-
 const Product = ({ item }) => {
+	const distpatch = useDispatch()
+
+	const handlerWishlist = (product) => {
+		distpatch(addWishlist(product))
+	}
 	return (
 		<Container>
-			<Image src={item.img} />
+			<Image src={`http://localhost:8080${item.img}`} />
 			<Info>
-				<InfoItems><AiOutlineHeart /></InfoItems>
+				<InfoItems><AiOutlineHeart onClick={() => handlerWishlist(item)} /></InfoItems>
 				<InfoItems>
 					<Link to={`/product/${item._id}`}>
 						<AiOutlineSearch />

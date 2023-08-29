@@ -4,18 +4,49 @@ import UserImage from './UserImage';
 import { useSelector } from "react-redux";
 import UserSetting from "./UserSetting";
 import AdminSetting from "./AdminSettings";
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
 const Container = styled.div`
 display: flex;
 align-items: center;
+width: 150px;
 gap: 5px;
 position: relative;
 `;
-const ProfileWrapper = styled.div`
-cursor: pointer;
-`;
-const UserName = styled.h3``;
 
+const Wrapper = styled.div`
+display: flex;
+gap: 10px;
+align-items: center;
+`;
+const ProfileWrapper = styled.div`
+&:hover{
+	cursor: pointer;
+}
+&:active  {
+	transform: scale(0.95);
+}
+`;
+
+const ComponentsWrapper = styled.div`
+width: 37px;
+height: 37px;
+border-radius: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: #39574c;
+border: none;
+color: #fff;
+
+&:hover{
+	cursor: pointer;
+}
+&:active  {
+	transform: scale(0.95);
+}
+`;
 
 const Profile = () => {
 	const [isProfile, setIsProfile] = useState(false)
@@ -23,21 +54,21 @@ const Profile = () => {
 
 	const {
 		profileUrl,
-		username,
 		isAdmin,
 	} = user
 
-	let firstLetter = username.split("")[0].toUpperCase();
-	let theRestLetters = username.slice(1)
-	const userName = firstLetter + theRestLetters
 
 	return (
 		<Container>
-			<ProfileWrapper onClick={() => setIsProfile(prev => !prev)}><UserImage image={profileUrl} /></ProfileWrapper>
-			<UserName>{userName}</UserName>
-			{isProfile && !isAdmin
-				? <UserSetting />
-				: <AdminSetting />
+			<Wrapper>
+				<ComponentsWrapper><NotificationsNoneIcon /></ComponentsWrapper>
+				<ComponentsWrapper><ReceiptLongIcon /></ComponentsWrapper>
+				<ProfileWrapper onClick={() => setIsProfile(prev => !prev)}><UserImage image={profileUrl} /></ProfileWrapper>
+			</Wrapper>
+			{isProfile &&
+				(isAdmin
+					? <AdminSetting user={user} />
+					: <UserSetting user={user} />)
 			}
 		</Container >
 	)

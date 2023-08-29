@@ -101,10 +101,9 @@ const Register = () => {
 			const file = e.target.files[0];
 			formData.append("image", file)
 			const { data } = await axios.post("http://localhost:8080/user-upload", formData)
-			console.log(data)
 			setProfileUrl(data.url)
 		} catch (e) {
-			throw e
+			console.log(e.message)
 		}
 	}
 
@@ -153,7 +152,11 @@ const Register = () => {
 						<Input
 							placeholder='Username'
 							{...register("username", {
-								required: "This field is required"
+								required: "This field is required",
+								maxLength: {
+									value: 16,
+									message: "Please provide a username (1-16 characters)"
+								}
 							})}
 						/>
 						{errors?.username && <ErrorHandler>{errors.username.message}</ErrorHandler>}

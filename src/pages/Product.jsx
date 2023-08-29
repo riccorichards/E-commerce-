@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { publicRequest } from '../publicRequest';
 import { useDispatch } from 'react-redux';
 import { addProducts } from '../redux/Slice/CartSlice';
+import { Alert, Snackbar } from '@mui/material';
 
 const Container = styled.div``;
 
@@ -137,7 +138,7 @@ const Pointers = styled.span`
 cursor: pointer;
 display: flex;
 `;
-const Button = styled.button`
+const SubmitButton = styled.button`
 font-family: 'Quicksand', sans-serif;
 font-size: 18px;
 font-weight: 400;
@@ -162,6 +163,10 @@ const Product = () => {
 	const [size, setSize] = useState({})
 	const [color, setColor] = useState({})
 	const dispatch = useDispatch()
+	const [openError, setOpenError] = useState(false);
+	const handleErrorClose = () => setOpenError(false);
+	const [openSuccess, setOpenSuccess] = useState(false);
+	const handleSuccessClose = () => setOpenSuccess(false);
 
 	useEffect(() => {
 		const makeRequest = async () => {
@@ -169,7 +174,7 @@ const Product = () => {
 				const { data } = await publicRequest.get("/products/" + id)
 				setProject(data)
 			} catch (err) {
-				throw err
+				console.log(err.message)
 			}
 		}
 		makeRequest()
@@ -184,9 +189,13 @@ const Product = () => {
 	}
 
 	const handlerAddingProcess = () => {
-		dispatch(addProducts({ ...project, size, color, quantity }))
+		if (Object.keys(color).length && Object.keys(size).length) {
+			dispatch(addProducts({ ...project, size, color, quantity }))
+			setOpenSuccess(true)
+		} else {
+			setOpenError(true)
+		}
 	}
-
 
 	return (
 		<Container>
@@ -194,7 +203,7 @@ const Product = () => {
 			<Announcement />
 			<Wrapper>
 				<ImgContainer>
-					<Image src='https://i.pinimg.com/564x/20/55/9a/20559a28f142f5cc307d9697b363d6bc.jpg' />
+					<Image src={`http://localhost:8080${project?.img}`} />
 				</ImgContainer>
 				<InfoContainer>
 					<Title>{project?.title}</Title>
@@ -222,12 +231,22 @@ const Product = () => {
 							<Amount>{quantity}</Amount>
 							<Pointers><AiFillPlusCircle onClick={() => quantityHandler("inc")} /></Pointers>
 						</AmountWrapper>
-						<Button onClick={() => handlerAddingProcess()}>Add to Cards</Button>
+						<SubmitButton onClick={() => handlerAddingProcess()}>Add to Cards</SubmitButton>
 					</AddContainer>
 				</InfoContainer>
 			</Wrapper>
 			<NewsLetter />
 			<Footer />
+			<Snackbar open={openError} autoHideDuration={6000} onClose={handleErrorClose}>
+				<Alert onClose={handleErrorClose} severity="error" variant="filled" sx={{ width: '100%' }}>
+					Please choose Color and Size..!
+				</Alert>
+			</Snackbar>
+			<Snackbar open={openSuccess} autoHideDuration={6000} onClose={handleSuccessClose}>
+				<Alert onClose={handleSuccessClose} severity="success" variant="filled" sx={{ width: '100%' }}>
+					Added in the cart...
+				</Alert>
+			</Snackbar>
 		</Container>
 	)
 }

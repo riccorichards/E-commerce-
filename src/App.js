@@ -5,7 +5,9 @@ import Product from "./pages/Product";
 import Register from "./pages/Register";
 import Login from './pages/Login';
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import NewProduct from './components/NewProduct';
+import NewProduct from './pages/NewProduct';
+import GetUsers from './pages/GetUsers';
+import OrdersPage from './pages/OrdersPage';
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/new-product" element={<NewProduct />} />
+        <Route path="/users" element={<GetUsers />} />
+        <Route path="/orders" element={<OrdersPage />} />
       </Routes>
     </BrowserRouter>
   );

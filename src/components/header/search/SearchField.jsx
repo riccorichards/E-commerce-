@@ -2,6 +2,7 @@ import { styled } from "styled-components"
 import SearchIcon from '@mui/icons-material/Search';
 
 const Container = styled.div`
+flex: 1.9;
 width: 50%;
 height:5vh;
 display: flex;
