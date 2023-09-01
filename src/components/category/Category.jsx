@@ -14,7 +14,6 @@ padding: 20px;
 ${mobileDevice({margin: "5px 0px 360px 0", flexDirection: "column"})}
 `;
 const Category = () => {
-
 	return (
 		<Container>
 			{category.map(item => (

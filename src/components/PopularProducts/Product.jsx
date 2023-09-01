@@ -28,7 +28,8 @@ align-items: center;
 
 const Image = styled.img`
 width: 100%;
-height: 80%;
+height: 45vh;
+background-size: cover;
 border: 1px solid gray;
 border-radius: 15px;
 box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);

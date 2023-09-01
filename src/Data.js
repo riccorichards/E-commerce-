@@ -46,19 +46,19 @@ export const category = [
 		id: 0,
 		title: "Light Jacket",
 		imgUrl: jacket,
-		category: "Jacket"
+		category: ["light-jacket"]
 	},
 	{
 		id: 1,
-		title: "Loungewear Love",
+		title: "Loungewear",
 		imgUrl: lounge,
-		category: "Loungewear"
+		category: "loungewear"
 	},
 	{
 		id: 2,
-		title: "Shirt Style",
-		imgUrl: shirt
-		, category: "Shirt"
+		title: "For women",
+		imgUrl: shirt,
+		category: "women"
 	},
 ]
 

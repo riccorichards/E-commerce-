@@ -76,11 +76,12 @@ const ProductsLists = () => {
 			<FilterContainer>
 				<FilterMethods><FilterMethodsText>Filter Products:</FilterMethodsText>
 					<Select name='color' onChange={filterHendler}>
+						<Option defaultValue="All">All</Option>
 						<Option value="Green">Green</Option>
 						<Option value="Blue">Blue</Option>
 						<Option value="Red">Red</Option>
-						<Option value="Yellow">Yellow</Option>
-						<Option value="Orange">Orange</Option>
+						<Option value="White">White</Option>
+						<Option value="Black">Black</Option>
 					</Select>
 					<Select name='size' onChange={filterHendler}>
 						<Option value="XS">XS</Option>

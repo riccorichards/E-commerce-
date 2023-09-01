@@ -4,10 +4,15 @@ import Announcement from './../components/Announcement';
 import Footer from './../components/Footer';
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai"
 import { mobileDevice } from '../responsive';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
-import React from "react"
+import React, { useState } from "react"
 import Wishlist from './../components/Wishlist';
+import { removeProduct, reset } from '../redux/Slice/CartSlice';
+import { Alert, Snackbar } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+//import { fetchOrders } from '../redux/Slice/OrderSlice';
+
 
 const Container = styled.div`
 `;
@@ -63,8 +68,8 @@ text-decoration: underline;
 const CartBody = styled.div`
 display: flex;
 width: 100%;
-height: 80vh;
-margin-bottom: 160px;
+/*height: 80vh;*/
+margin-bottom: 80px;
 padding: 50px;
 ${mobileDevice({ flexDirection: "column", gap: "55px", padding: "10px", marginBottom: "660px" })}
 
@@ -107,6 +112,9 @@ const ProductID = styled.span`
 font-size: 24px;
 `;
 
+const ProductPrice = styled.span`
+font-size: 24px;
+`;
 const ProductColor = styled.div`
 width: 20px;
 height: 20px;
@@ -118,7 +126,7 @@ const ProductSIze = styled.span`
 font-size: 24px;
 `;
 
-const ProductPrice = styled.div`
+const ProductTotalPrice = styled.div`
 flex: 2;
 display: flex;
 flex-direction: column;
@@ -224,11 +232,25 @@ cursor: pointer;
 
 const Cart = () => {
 	let { products, total, wishlist } = useSelector(state => state.cart)
-
+	//let { accessToken, _id } = useSelector(state => state.login.currentUser)
+  const dispatch = useDispatch()
 	const amount = parseFloat(total).toFixed(2)
-
+	const [openSuccess, setOpenSuccess] = useState(false);
+	const handleSuccessClose = () => setOpenSuccess(false);
+	const [openError, setOpenError] = useState(false);
+	const handleErrorClose = () => setOpenError(false);
+	const navigate = useNavigate()
+	
 	const removeProductFromCart = (productId) => {
-		return products = products.filter(product => product.id !== productId)
+		dispatch(removeProduct(productId))
+	}
+	const buyNow = () => {
+		if (products.length > 0) {
+			setOpenSuccess(true)
+			dispatch(reset())
+		} else {
+			setOpenError(true)
+		}
 	}
 	return (
 		<Container>
@@ -238,12 +260,12 @@ const Cart = () => {
 				<CartHeader>
 					<HeaderTitle>YOUR BAG</HeaderTitle>
 					<CartHeaderWrapper>
-						<HeaderButtons color='white'>CONTINUE SHOPPING</HeaderButtons>
+						<HeaderButtons color='white' onClick={() => navigate("/")}>CONTINUE SHOPPING</HeaderButtons>
 						<HeaderTexts>
 							<HeaderText>Shopping bag ({products.length})</HeaderText>
 							<HeaderText>Your Wishlist ({wishlist.length})</HeaderText>
 						</HeaderTexts>
-						<HeaderButtons>CHECKOUT NOW</HeaderButtons>
+						<HeaderButtons onClick={() => buyNow()}>CHECKOUT NOW</HeaderButtons>
 					</CartHeaderWrapper>
 				</CartHeader>
 				<CartBody>
@@ -256,17 +278,22 @@ const Cart = () => {
 									<ProductDetails>
 										<ProductTitle><b>Product:</b>{product.title}</ProductTitle>
 										<ProductID><b>ID:</b>{product._id}</ProductID>
+										<ProductPrice><b>Price:</b> {product.price}$</ProductPrice>
 										<ProductColor bgcolor={product.color} />
 										<ProductSIze><b>Size:</b>{product.size}</ProductSIze>
 									</ProductDetails>
-									<ProductPrice>
-										<AmountWapper>
-											<AmountMinus><AiFillMinusCircle /></AmountMinus>
-											<Amount>{product.quantity}</Amount>
-											<Amountaplus><AiFillPlusCircle /></Amountaplus>
-										</AmountWapper>
+									<ProductTotalPrice>
+									<AmountWapper>
+                   <AmountMinus>
+                     <AiFillMinusCircle/>
+                   </AmountMinus>
+                   <Amount>{product.quantity}</Amount>
+                   <Amountaplus>
+                     <AiFillPlusCircle />
+                   </Amountaplus>
+                 </AmountWapper>
 										<ItemPrice>${parseFloat(product.price * product.quantity).toFixed(2)}</ItemPrice>
-									</ProductPrice>
+									</ProductTotalPrice>
 								</ProductWrapper>
 								<Hr />
 							</React.Fragment>
@@ -292,12 +319,25 @@ const Cart = () => {
 								<CartSummeryDetailsInfo><b>${amount}</b></CartSummeryDetailsInfo>
 							</CartSummeryDetailsItems>
 						</CartSummeryDetails>
-						<CartSummeryButton>BUY NOW</CartSummeryButton>
+						<CartSummeryButton onClick={() => buyNow()}>BUY NOW</CartSummeryButton>
 					</CartSummeryWrapper>
 				</CartBody>
 			</Wrapper>
-			<Wishlist />
+			{wishlist.length > 0
+				? <Wishlist />
+			  : null	
+	   	}
 			<Footer />
+			<Snackbar open={openError} autoHideDuration={6000} onClose={handleErrorClose}>
+				<Alert onClose={handleErrorClose} severity="error" variant="filled" sx={{ width: '100%' }}>
+					For buying something, first you have to add product in the cart..!
+				</Alert>
+			</Snackbar>
+			<Snackbar open={openSuccess} autoHideDuration={6000} onClose={handleSuccessClose}>
+				<Alert onClose={handleSuccessClose} severity="success" variant="filled" sx={{ width: '100%' }}>
+					Order successfully added...
+				</Alert>
+			</Snackbar>
 		</Container>
 	)
 }
