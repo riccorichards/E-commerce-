@@ -7,10 +7,10 @@ import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { mobileDevice } from "../responsive";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { publicRequest } from "../publicRequest";
 import { useDispatch } from "react-redux";
 import { addProducts } from "../redux/Slice/CartSlice";
 import { Alert, Snackbar } from "@mui/material";
+import axios from "axios";
 
 const Container = styled.div``;
 
@@ -163,11 +163,12 @@ const Product = () => {
   const handleErrorClose = () => setOpenError(false);
   const [openSuccess, setOpenSuccess] = useState(false);
   const handleSuccessClose = () => setOpenSuccess(false);
-
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        const { data } = await publicRequest.get("/products/" + id);
+        const { data } = await axios.get(
+          "http://localhost:8080/products/" + id
+        );
         setProject(data);
       } catch (err) {
         console.log(err.message);
@@ -210,9 +211,13 @@ const Product = () => {
           <Price>$ {project?.price}</Price>
           <FilterContainer>
             <FilterColor>
-              <ColorTItle>Color:</ColorTItle>
+              <ColorTItle>Colors:</ColorTItle>
               {project?.color.map((c) => (
-                <ColorItem color={c} key={c} onClick={() => setColor(c)} />
+                <ColorItem
+                  color={c}
+                  key={c}
+                  onClick={() => setColor(c)}
+                />
               ))}
             </FilterColor>
             <WrapperFilterSize>

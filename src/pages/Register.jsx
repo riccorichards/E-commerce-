@@ -7,7 +7,6 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ErrorHandler, InputWrapper } from "./Login";
 import axios from "axios";
-
 const Conteiner = styled.div`
   width: 100%;
   height: 100vh;
@@ -79,6 +78,26 @@ const Button = styled.button`
   }
 `;
 
+const ImageButton = styled.span`
+  font-family: "Quicksand", sans-serif;
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  letter-spacing: 1px;
+  transition: all 0.25s ease-in;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 0 1.5px black;
+
+  &:hover {
+    cursor: pointer;
+    background-color: aqua;
+    border-radius: 15px 0 15px 0;
+  }
+`;
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -94,6 +113,7 @@ const Register = () => {
 
   const passRef = useRef(null);
   passRef.current = watch("password", "");
+  const imageRef = useRef(null);
 
   const uploadProfileUrl = async (e) => {
     try {
@@ -129,7 +149,15 @@ const Register = () => {
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Input type="file" onChange={uploadProfileUrl} />
+          <Input
+            type="file"
+            onChange={uploadProfileUrl}
+            hidden
+            ref={imageRef}
+          />
+          <ImageButton onClick={() => imageRef.current.click()}>
+            {profileUrl ? profileUrl.split("/")[2] : "Add Image here..."}
+          </ImageButton>
           <InputWrapper>
             <Input
               placeholder="First Name"
