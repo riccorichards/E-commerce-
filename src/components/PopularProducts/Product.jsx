@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { AiOutlineHeart, AiOutlineSearch } from "react-icons/ai";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   removeFromWishlist,
@@ -68,7 +68,7 @@ const Product = ({ item }) => {
   const distpatch = useDispatch();
   const { wishlist } = useSelector((state) => state.cart);
   const { token } = useSelector((state) => state.login);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   let existProduct;
 
   const handlerWishlist = (product) => {
@@ -79,7 +79,7 @@ const Product = ({ item }) => {
         distpatch(removeFromWishlist(product._id));
       }
     } else {
-      navigate("/login")
+      navigate("/login");
     }
   };
 

@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { largeMobileDevice, mobileDevice } from "../../utilities/responsive";
+import { largeMobileDevice } from "../../utilities/responsive";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Logo from "./Logo";
