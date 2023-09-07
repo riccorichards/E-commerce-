@@ -1,11 +1,11 @@
-import summerSale from "./assets/summerSale.png";
-import forMen from "./assets/forMen.png";
-import forSnow from "./assets/forSnow.png";
-import forWomen from "./assets/forWomen.png";
+import summerSale from ".././assets/summerSale.png";
+import forMen from ".././assets/forMen.png";
+import forSnow from ".././assets/forSnow.png";
+import forWomen from ".././assets/forWomen.png";
 
-import jacket from "./assets/category/jacket.jpg";
-import lounge from "./assets/category/lounge.jpg";
-import shirt from "./assets/category/shirt.jpg";
+import jacket from ".././assets/category/jacket.jpg";
+import lounge from ".././assets/category/lounge.jpg";
+import shirt from ".././assets/category/shirt.jpg";
 
 export const SlideData = [
   {

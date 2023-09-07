@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Product from "./Product";
-import { mobileDevice } from "./../../responsive";
+import { laptopDevice } from "./../../utilities/responsive";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -10,10 +10,10 @@ const Container = styled.div`
   margin: 0 auto;
   height: 100%;
   width: 100%;
-  gap: 25px;
+  gap: 25px 0;
   padding: 50px;
   background-color: #39574c;
-  ${mobileDevice({ display: "flex", flexWrap: "wrap" })}
+  ${laptopDevice({ display: "flex", flexWrap: "wrap" })}
 `;
 
 const Products = ({ category, filters, sort }) => {

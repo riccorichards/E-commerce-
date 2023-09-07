@@ -1,6 +1,6 @@
 import { styled } from "styled-components"
 import { IoSend } from "react-icons/io5"
-import { mobileDevice } from './../responsive';
+import { mobileDevice, tabletDevice } from './../utilities/responsive';
 
 const Container = styled.div`
 display: flex;
@@ -13,11 +13,12 @@ gap: 15px;
 const Title = styled.div`
 font-size: 75px;
 font-weight: 900;
-${mobileDevice({fontSize: "45px"})}
+${tabletDevice({fontSize: "45px"})}
 
 `;
 const Desc = styled.div`
 font-size: 35px;
+${tabletDevice({fontSize: "32px", textAlign: "center"})}
 ${mobileDevice({fontSize: "18px", textAlign: "center"})}
 `;
 const SubmitStyle = styled.div`
@@ -25,7 +26,7 @@ display: flex;
 gap: 5px;
 margin-top: 20px;
 width: 35%;
-${mobileDevice({margin: "5px", width: "80%"})}
+${tabletDevice({margin: "5px", width: "80%"})}
 `;
 
 const Input = styled.input`

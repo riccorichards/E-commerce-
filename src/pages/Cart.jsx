@@ -3,7 +3,12 @@ import NavBar from "./../components/header/NavBar";
 import Announcement from "./../components/Announcement";
 import Footer from "./../components/Footer";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
-import { mobileDevice } from "../responsive";
+import {
+  laptopDevice,
+  largeMobileDevice,
+  mobileDevice,
+  tabletDevice,
+} from "../utilities/responsive";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useState } from "react";
@@ -58,7 +63,7 @@ const HeaderButtons = styled.button`
 const HeaderTexts = styled.div`
   display: flex;
   gap: 15px;
-  ${mobileDevice({ display: "none" })}
+  ${tabletDevice({ display: "none" })}
 `;
 const HeaderText = styled.p`
   font-size: 18px;
@@ -70,11 +75,10 @@ const CartBody = styled.div`
   width: 100%;
   margin-bottom: 80px;
   padding: 50px;
-  ${mobileDevice({
+  ${laptopDevice({
     flexDirection: "column",
     gap: "55px",
     padding: "10px",
-    marginBottom: "660px",
   })}
 `;
 
@@ -88,7 +92,8 @@ const CartProductSpace = styled.div`
 const ProductWrapper = styled.div`
   display: flex;
   gap: 15px;
-  ${mobileDevice({ flexWrap: "wrap" })}
+  ${tabletDevice({ flexWrap: "wrap" })}
+  ${largeMobileDevice({ flexDirection: "column", alignItems: "center" })}
   position: relative;
 `;
 
@@ -104,10 +109,13 @@ const ProductDetails = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  ${largeMobileDevice({ flexDirection: "column", alignItems: "center" })}
 `;
 
 const ProductTitle = styled.p`
   font-size: 24px;
+  ${largeMobileDevice({ textAlign: "center" })}
+
 `;
 
 const ProductID = styled.span`
@@ -235,11 +243,12 @@ const CloseWrapper = styled.span`
   &:active {
     transform: scale(0.95);
   }
+  ${tabletDevice({ top: "100%" })}
 `;
 
 const Cart = () => {
   let { products, total, wishlist } = useSelector((state) => state.cart);
-  let { accessToken, _id } = useSelector((state) => state.login.currentUser);
+  let { token, currentUser } = useSelector((state) => state.login);
   const dispatch = useDispatch();
   const amount = parseFloat(total).toFixed(2);
 
@@ -265,10 +274,10 @@ const Cart = () => {
           method: "post",
           url: "http://localhost:8080/carts",
           headers: {
-            token: `Bearer ${accessToken}`,
+            token: `Bearer ${token}`,
           },
           data: {
-            userId: _id,
+            userId: currentUser._id,
             products: forDataBD,
           },
         });

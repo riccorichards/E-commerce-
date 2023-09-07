@@ -46,7 +46,7 @@ const TopUsers = styled.div`
 `;
 const GetUsers = () => {
   const [users, setUsers] = useState([]);
-  const { accessToken } = useSelector((state) => state.login.currentUser);
+  const { token } = useSelector((state) => state.login);
   const [page, setPage] = useState(0);
   const [usersPerPage, setUsersPerPage] = useState(null);
   const [usersLength, setUsersLength] = useState(null);
@@ -58,7 +58,7 @@ const GetUsers = () => {
           method: "get",
           url: `http://localhost:8080/user?page=${page}`,
           headers: {
-            token: `Bearer ${accessToken}`,
+            token: `Bearer ${token}`,
           },
         });
         setUsers(data.users);
@@ -72,7 +72,7 @@ const GetUsers = () => {
     }
   }, [page]); //eslint-disable-line react-hooks/exhaustive-deps
 
-  const amount = Math.round(usersLength / usersPerPage) || 1;
+  const amount = Math.ceil(usersLength / usersPerPage) || 1;
 
   const topUsers = allUsers
     .map((user) => ({

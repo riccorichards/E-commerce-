@@ -15,9 +15,10 @@ const GoToHomeWrapper = styled.div`
 `;
 
 const OrdersPage = () => {
-  const { isAdmin, _id, accessToken, username } = useSelector(
+  const { isAdmin, _id, username } = useSelector(
     (state) => state.login.currentUser
   );
+  const { token } = useSelector((state) => state.login);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -30,10 +31,10 @@ const OrdersPage = () => {
             : `http://localhost:8080/orders/user`,
           headers: isAdmin
             ? {
-                token: `Bearer ${accessToken}`,
+                token: `Bearer ${token}`,
               }
             : {
-                token: `Bearer ${accessToken}`,
+                token: `Bearer ${token}`,
                 Userid: `${_id}`,
               },
         });

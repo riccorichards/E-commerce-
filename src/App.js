@@ -10,9 +10,9 @@ import GetUsers from "./pages/GetUsers";
 import OrdersPage from "./pages/orderPage/OrdersPage";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import ScrollToTop from "./ScrollToTop";
+import ScrollToTop from "./utilities/ScrollToTop";
 import { useEffect, useRef, useState } from "react";
-import SetProfileContext from "./SetProfileContext";
+import SetProfileContext from "./utilities/SetProfileContext";
 
 function App() {
   const isUser = useSelector((state) => state.login.currentUser);
@@ -20,12 +20,14 @@ function App() {
   const profileRef = useRef(null);
   const profileComponentRef = useRef(null);
   const editProfileRef = useRef(null);
+  const editPasswordRef = useRef(null);
   const values = {
     isProfile,
     setIsProfile,
     profileRef,
     profileComponentRef,
     editProfileRef,
+    editPasswordRef,
   };
 
   useEffect(() => {
@@ -35,14 +37,16 @@ function App() {
       const clickedOutsideProfileComponent =
         profileComponentRef.current &&
         !profileComponentRef.current.contains(e.target);
-
       const clickedOutsideEditProfile =
         editProfileRef.current && editProfileRef.current.contains(e.target);
+      const clickOutSideEditPassword =
+        editPasswordRef.current && editPasswordRef.current.contains(e.target);
 
       if (
         clickedOutsideProfile &&
         clickedOutsideProfileComponent &&
-        !clickedOutsideEditProfile
+        !clickedOutsideEditProfile &&
+        !clickOutSideEditPassword
       ) {
         setIsProfile(false);
       }
@@ -63,10 +67,13 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/products/:category" element={<ProductsLists />} />
-          <Route path="/product/:id" element={<Product />} />
+          <Route
+            path="/product/:id"
+            element={isUser ? <Product /> : <Navigate to="/login" />}
+          />
           <Route
             path="/cart"
-            element={isUser ? <Cart /> : <Navigate to="/" />}
+            element={isUser ? <Cart /> : <Navigate to="/login" />}
           />
           <Route path="/register" element={<Register />} />
           <Route path="/new-product" element={<NewProduct />} />

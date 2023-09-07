@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { mobileDevice } from '../../responsive';
+import { mobileDevice } from '../../utilities/responsive';
 import { styled } from 'styled-components';
 
 

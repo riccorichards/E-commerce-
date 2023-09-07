@@ -1,45 +1,9 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-export const fetchLogin = createAsyncThunk(
-  "/login/fetchLogin",
-  async (params) => {
-    const { data } = await axios.post(
-      "http://localhost:8080/auth/login",
-      params
-    );
-    return data;
-  }
-);
-
-export const fetchRegister = createAsyncThunk(
-  "/login/fetchRegister",
-  async (params) => {
-    const { data } = await axios.post(
-      "http://localhost:8080/auth/register",
-      params
-    );
-    return data;
-  }
-);
-
-export const fetchUpdate = createAsyncThunk(
-  "login/fetchUpdate",
-  async ({ params, accessToken }) => {
-    const { data } = await axios({
-      method: "put",
-      url: "http://localhost:8080/user",
-      headers: {
-        token: `Bearer ${accessToken}`,
-      },
-      data: params,
-    });
-    return data;
-  }
-);
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchLogin, fetchRegister, fetchUpdate } from "./apiCalled";
 
 const initialState = {
   currentUser: null,
+  token: null,
   status: null,
   error: null,
 };
@@ -50,6 +14,7 @@ const UserSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.currentUser = null;
+      state.token = null;
     },
   },
   extraReducers: (builder) => {
@@ -59,7 +24,8 @@ const UserSlice = createSlice({
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.status = "loaded";
-        state.currentUser = action.payload;
+        state.currentUser = action.payload.currentUser;
+        state.token = action.payload.token;
       })
       .addCase(fetchLogin.rejected, (state, action) => {
         state.status = "rejected";

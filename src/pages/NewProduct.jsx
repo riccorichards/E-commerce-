@@ -5,11 +5,11 @@ import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
 import GoToHome from "./../components/GoToHome";
+import { tabletDevice } from "../utilities/responsive";
 
 const Container = styled.div`
   width: 80%;
   margin: 0 auto;
-  height: 100vh;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
@@ -68,6 +68,7 @@ const Main = styled.main`
   display: flex;
   gap: 15px;
   padding: 0 10px;
+  ${tabletDevice({ display: "flex", flexDirection: "column" })}
 `;
 
 const Image = styled.img`
@@ -76,6 +77,7 @@ const Image = styled.img`
   height: 100%;
   border-radius: 10px;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.26);
+  ${tabletDevice({ width: "100%" })}
 `;
 
 const Form = styled.form`
@@ -111,7 +113,7 @@ const ImageWrapper = styled.div`
 `;
 const NewProduct = () => {
   const [getImg, setGetImg] = useState("");
-  const { accessToken } = useSelector((state) => state.login.currentUser);
+  const { token } = useSelector((state) => state.login);
   const imageRef = useRef(null);
   const {
     register,
@@ -122,7 +124,7 @@ const NewProduct = () => {
     mode: "onBlur",
   });
   const headers = {
-    token: `Bearer ${accessToken}`,
+    token: `Bearer ${token}`,
   };
 
   const handlerFile = async (e) => {

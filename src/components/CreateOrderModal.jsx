@@ -39,9 +39,9 @@ const CreateOrderModal = ({
   createdCart = null,
 }) => {
   const { products, total, quantity } = useSelector((state) => state.cart);
-  const { accessToken, _id, profileUrl } = useSelector(
-    (state) => state.login.currentUser
-  );
+  const { token } = useSelector((state) => state.login);
+  const { _id, profileUrl } = useSelector((state) => state.login.currentUser);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [additionalOrderData, setAdditionalOrderData] = useState(initial);
@@ -53,7 +53,7 @@ const CreateOrderModal = ({
         method: "delete",
         url: `http://localhost:8080/carts/${createdCart._id}`,
         headers: {
-          token: `Bearer ${accessToken}`,
+          token: `Bearer ${token}`,
         },
       });
       handleClose();
@@ -79,12 +79,11 @@ const CreateOrderModal = ({
         method: "post",
         url: "http://localhost:8080/orders",
         headers: {
-          token: `Bearer ${accessToken}`,
+          token: `Bearer ${token}`,
         },
         data: forOrder,
       });
-      console.log(additionalOrderData.amount);
-      console.log(additionalOrderData.address);
+ 
       if (
         additionalOrderData.amount === total.toString() &&
         additionalOrderData.address !== ""
@@ -280,6 +279,9 @@ const CreateOrderModal = ({
                 color: "#fff",
                 backgroundColor: "#39574c",
                 mt: "10px",
+                "&:hover": {
+                  backgroundColor: "#39574c67",
+                },
               }}
               onClick={() => handlerOrder()}
             >

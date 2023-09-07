@@ -21,7 +21,7 @@ const style = {
 };
 
 const SimgleOrders = ({ open, handleClose, setOpen, userId = undefined }) => {
-  const { accessToken } = useSelector((state) => state.login.currentUser);
+  const { token } = useSelector((state) => state.login);
   const [user, setUser] = useState({});
   const [usersOrders, setUsersOrders] = useState([]);
 
@@ -32,7 +32,7 @@ const SimgleOrders = ({ open, handleClose, setOpen, userId = undefined }) => {
           method: "get",
           url: `http://localhost:8080/user/find/${userId}`,
           headers: {
-            token: `Bearer ${accessToken}`,
+            token: `Bearer ${token}`,
           },
         });
         setUser(data);
@@ -50,7 +50,7 @@ const SimgleOrders = ({ open, handleClose, setOpen, userId = undefined }) => {
           method: "get",
           url: `http://localhost:8080/orders/user/`,
           headers: {
-            token: `Bearer ${accessToken}`,
+            token: `Bearer ${token}`,
             userid: `${user?._id}`,
           },
         });

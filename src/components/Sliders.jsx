@@ -3,9 +3,13 @@ import {
   BsFillArrowRightCircleFill,
   BsFillArrowLeftCircleFill,
 } from "react-icons/bs";
-import { SlideData } from "../Data";
+import { SlideData } from "../utilities/Data";
 import { useState } from "react";
-import { mobileDevice } from "./../responsive";
+import {
+  laptopDevice,
+  mobileDevice,
+  tabletDevice,
+} from "./../utilities/responsive";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
@@ -15,6 +19,7 @@ const Container = styled.div`
   position: relative;
   overflow-x: hidden;
   overflow-y: hidden;
+  ${tabletDevice({ display: "none" })}
   ${mobileDevice({ display: "none" })}
 `;
 
@@ -70,12 +75,16 @@ const InfoContainer = styled.div`
 
 const Title = styled.h1`
   font-size: 70px;
+  ${laptopDevice({ fontSize: "50px" })}
+  ${tabletDevice({ fontSize: "35px" })}
 `;
 const Desc = styled.p`
   font-size: 30px;
   letter-spacing: 2px;
   margin: 50px 0;
   font-weight: 500;
+  ${laptopDevice({ fontSize: "22px" })}
+  ${tabletDevice({ fontSize: "14px" })}
 `;
 const Button = styled.button`
   padding: 20px;
@@ -87,6 +96,9 @@ const Button = styled.button`
   &:hover {
     cursor: pointer;
   }
+
+  ${laptopDevice({ fontSize: "22px", padding: "15px" })}
+  ${tabletDevice({ fontSize: "14px", padding: "8px" })}
 `;
 
 const Sliders = () => {

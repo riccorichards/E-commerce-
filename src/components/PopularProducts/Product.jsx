@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { AiOutlineHeart, AiOutlineSearch } from "react-icons/ai";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   removeFromWishlist,
@@ -67,13 +67,19 @@ const LinkStyle = styled(Link)`
 const Product = ({ item }) => {
   const distpatch = useDispatch();
   const { wishlist } = useSelector((state) => state.cart);
-
+  const { token } = useSelector((state) => state.login);
+  const navigate = useNavigate()
   let existProduct;
+
   const handlerWishlist = (product) => {
-    distpatch(updateWishlist(product));
-    existProduct = wishlist.find((exist) => exist._id === product._id);
-    if (existProduct) {
-      distpatch(removeFromWishlist(product._id));
+    if (token) {
+      distpatch(updateWishlist(product));
+      existProduct = wishlist.find((exist) => exist._id === product._id);
+      if (existProduct) {
+        distpatch(removeFromWishlist(product._id));
+      }
+    } else {
+      navigate("/login")
     }
   };
 

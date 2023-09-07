@@ -1,15 +1,20 @@
 import { styled } from "styled-components";
 import { AiFillLinkedin, AiFillGithub, AiOutlineMail } from "react-icons/ai";
 import { BiMap, BiPhoneCall } from "react-icons/bi";
-import { mobileDevice } from "./../responsive";
+import {
+  laptopDevice,
+  mobileDevice,
+  tabletDevice,
+} from "./../utilities/responsive";
 import { SiCodewars } from "react-icons/si";
 const Container = styled.div`
   display: flex;
   width: 100%;
-  height: 50vh;
+  height: 55vh;
   background-color: #39574c;
 
-  ${mobileDevice({ flexDirection: "column", height: "100%" })}
+  ${laptopDevice({ height: "100%" })}
+  ${tabletDevice({ flexDirection: "column", height: "100%" })}
 `;
 
 const Left = styled.div`
@@ -18,6 +23,7 @@ const Left = styled.div`
   flex-direction: column;
   gap: 15px;
   padding: 20px;
+  ${laptopDevice({ flex: "3" })}
 `;
 
 const Logo = styled.h1`
@@ -27,8 +33,8 @@ const Logo = styled.h1`
 `;
 
 const Desc = styled.p`
-  font-size: 18px;
-  letter-spacing: 1.5px;
+  font-size: 16px;
+  letter-spacing: 1px;
 `;
 
 const SocialWrapper = styled.div`
@@ -55,6 +61,7 @@ const Center = styled.div`
   flex-direction: column;
   gap: 25px;
 
+  ${laptopDevice({ display: "none" })}
   ${mobileDevice({ display: "none" })}
 `;
 
@@ -106,12 +113,11 @@ const Footer = () => {
       <Left>
         <Logo>RiccoShop.</Logo>
         <Desc>
-          I'm a self-taught software developer with a strong passion for
-          creating elegant and efficient solutions. My skills span from
-          front-end technologies like HTML, CSS, and React to server-side tools
-          such as Node.js, Express, and databases like MySQL and MongoDB. I'm
-          committed to continuous learning, adaptable, and eager to contribute
-          to impactful projects.
+          I'm a self-taught software developer. My skills span from front-end
+          technologies like HTML, CSS, and React to server-side tools such as
+          Node.js, Express, and databases like MySQL and MongoDB. I'm committed
+          to continuous learning, adaptable, and eager to contribute to
+          impactful projects.
         </Desc>
         <SocialWrapper>
           <Social

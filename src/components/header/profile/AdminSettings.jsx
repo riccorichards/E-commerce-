@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import EditIcon from '@mui/icons-material/Edit';
 import UserImage from "./UserImage";
 import { Divider } from "@mui/material";
-import { mobileDevice } from '../../../responsive';
+import { mobileDevice } from '../../../utilities/responsive';
 import { useState } from "react";
 import UpdateProfile from "./UpdateProfile";
 

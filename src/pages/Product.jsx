@@ -4,7 +4,7 @@ import Announcement from "./../components/Announcement";
 import NewsLetter from "./../components/NewsLetter";
 import Footer from "./../components/Footer";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
-import { mobileDevice } from "../responsive";
+import { laptopDevice, mobileDevice, tabletDevice } from "../utilities/responsive";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   padding: 50px;
   gap: 20px;
 
+  ${tabletDevice({ flexDirection: "column", padding: "10px" })}
   ${mobileDevice({ flexDirection: "column", padding: "10px" })}
 `;
 
@@ -44,19 +45,23 @@ const Title = styled.h1`
   font-size: 45px;
   font-weight: 200;
 
+  ${laptopDevice({ fontSize: "32px" })}
+  ${tabletDevice({ fontSize: "28px" })}
   ${mobileDevice({ fontSize: "24px" })}
 `;
 
 const Desc = styled.p`
   font-size: 24px;
   font-weight: 400;
-  ${mobileDevice({ fontSize: "16px" })}
+  ${laptopDevice({ fontSize: "24px" })}
+  ${tabletDevice({ fontSize: "18px" })}
+  ${mobileDevice({ fontSize: "14px" })}
 `;
 
 const Price = styled.span`
   font-size: 45px;
   font-weight: 100;
-  ${mobileDevice({ fontSize: "24px" })}
+  ${laptopDevice({ fontSize: "24px" })}
 `;
 
 const FilterContainer = styled.div`
@@ -113,6 +118,7 @@ const AddContainer = styled.div`
   justify-content: space-between;
   width: 50%;
   align-items: center;
+  ${laptopDevice({ display: "flex", flexDirection: "column", alignSelf: "flex-start", width: "fit-content", gap: "20px" })}
   ${mobileDevice({ width: "100%" })}
 `;
 const AmountWrapper = styled.div`

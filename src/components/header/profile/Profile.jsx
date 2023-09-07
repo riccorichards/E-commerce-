@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import UserSetting from "./UserSetting";
 import AdminSetting from "./AdminSettings";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { useNavigate } from "react-router-dom";
-import SetProfileContext from "../../../SetProfileContext";
+import SetProfileContext from "../../../utilities/SetProfileContext";
+import { largeMobileDevice } from "../../../utilities/responsive";
 
 const Container = styled.div`
   display: flex;
@@ -15,12 +15,15 @@ const Container = styled.div`
   width: 150px;
   gap: 5px;
   position: relative;
+  justify-content: flex-end;
+  ${largeMobileDevice({width: "50px"})}
 `;
 
 const Wrapper = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-content: center;
 `;
 const ProfileWrapper = styled.div`
   &:hover {
@@ -63,9 +66,6 @@ const Profile = () => {
   return (
     <Container>
       <Wrapper>
-        <ComponentsWrapper>
-          <NotificationsNoneIcon />
-        </ComponentsWrapper>
         <ComponentsWrapper>
           <ReceiptLongIcon onClick={() => navigate(`/orders`)} />
         </ComponentsWrapper>

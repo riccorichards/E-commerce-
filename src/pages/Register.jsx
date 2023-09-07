@@ -1,12 +1,18 @@
 import { styled } from "styled-components";
 import { useForm } from "react-hook-form";
-import { mobileDevice } from "../responsive";
+import {
+  mobileDevice,
+  laptopDevice,
+  tabletDevice,
+  largeMobileDevice,
+} from "../utilities/responsive";
 import { useDispatch } from "react-redux";
-import { fetchRegister } from "../redux/Slice/UserSlice";
+import { fetchRegister } from "../redux/Slice/apiCalled";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ErrorHandler, InputWrapper } from "./Login";
 import axios from "axios";
+
 const Conteiner = styled.div`
   width: 100%;
   height: 100vh;
@@ -21,18 +27,22 @@ const Conteiner = styled.div`
 const Wrapper = styled.div`
   background-color: white;
   width: 50%;
+  ${largeMobileDevice({ width: "95%" })}
   ${mobileDevice({ width: "100%" })}
 `;
 const Title = styled.h1`
   padding: 10px 0px 0px 20px;
   font-size: 32px;
   font-weight: 500;
+  ${tabletDevice({ fontSize: "24px" })}
 `;
 const Form = styled.form`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 20px;
+  ${tabletDevice({ display: "flex", flexDirection: "column" })}
+
   ${mobileDevice({ gridTemplateColumns: "100%" })}
 `;
 const Input = styled.input`
@@ -47,6 +57,7 @@ const Input = styled.input`
   &::placeholder {
     color: #39574c;
   }
+  ${tabletDevice({ fontSize: "16px", padding: "5px 12px" })}
 `;
 
 const Agreement = styled.p`
@@ -76,6 +87,7 @@ const Button = styled.button`
     opacity: 0.3;
     cursor: not-allowed;
   }
+  ${tabletDevice({ fontSize: "16px", padding: "5px 12px" })}
 `;
 
 const ImageButton = styled.span`
@@ -91,6 +103,7 @@ const ImageButton = styled.span`
   font-weight: 800;
   color: #fff;
   text-shadow: 0 0 1.5px black;
+  ${laptopDevice({ textAlign: "center" })}
 
   &:hover {
     cursor: pointer;

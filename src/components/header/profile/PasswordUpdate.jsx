@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -6,9 +6,10 @@ import Button from "@mui/material/Button";
 import { InputBase } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import { useForm } from "react-hook-form";
-import { fetchUpdate } from "../../../redux/Slice/UserSlice";
+import { fetchUpdate } from "../../../redux/Slice/apiCalled";
 import { useDispatch, useSelector } from "react-redux";
 import { ErrorHandler, InputWrapper } from "../../../pages/Login";
+import SetProfileContext from "../../../utilities/SetProfileContext";
 
 const style = {
   position: "absolute",
@@ -27,7 +28,7 @@ const style = {
 
 const PasswordUpdate = () => {
   const dispatch = useDispatch();
-  const { accessToken } = useSelector((state) => state.login.currentUser);
+  const { token, currentUser } = useSelector((state) => state.login);
   const {
     register,
     formState: { errors, isValid },
@@ -37,7 +38,8 @@ const PasswordUpdate = () => {
   } = useForm({
     mode: "onBlur",
   });
-
+  const getValues = useContext(SetProfileContext);
+  const editPasswordRef = getValues.editPasswordRef;
   const passRef = useRef(null);
   passRef.current = watch("password", "");
   const [open, setOpen] = useState(false);
@@ -49,11 +51,16 @@ const PasswordUpdate = () => {
   };
 
   const onSubmit = (update) => {
-    const data = {
+    const updateObj = {
+      userId: currentUser._id,
       password: update.password,
     };
-    dispatch(fetchUpdate(data));
-    reset();
+    try {
+      dispatch(fetchUpdate({ updateObj, token }));
+      reset();
+    } catch (err) {
+      console.log(err.message);
+    }
   };
   return (
     <React.Fragment>
@@ -66,7 +73,7 @@ const PasswordUpdate = () => {
       >
         <Box sx={{ ...style, width: 250 }}>
           <h2 id="child-modal-title">Password</h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form ref={editPasswordRef} onSubmit={handleSubmit(onSubmit)}>
             <InputWrapper>
               <InputBase
                 placeholder="Your password"

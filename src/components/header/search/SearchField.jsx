@@ -2,9 +2,11 @@ import { styled } from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../../../redux/Slice/GetProducts";
+import { fetchProducts } from "../../../redux/Slice/apiCalled";
 import { useNavigate, Link } from "react-router-dom";
 import { Divider } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { tabletDevice } from "../../../utilities/responsive";
 
 const Container = styled.div`
   flex: 1.9;
@@ -13,6 +15,7 @@ const Container = styled.div`
   display: flex;
   border: 1px solid;
   position: relative;
+  ${tabletDevice({ display: "none" })}
 `;
 
 const SelectorController = styled.select`
@@ -22,6 +25,7 @@ const SelectorController = styled.select`
   background-color: #ccc9c95e;
   font-family: "Quicksand", sans-serif;
   letter-spacing: 1.5px;
+  ${tabletDevice({ display: "none" })}
 
   &:hover {
     cursor: pointer;
@@ -45,9 +49,9 @@ const SearchInput = styled.input`
   &:focus {
     outline: none;
   }
+  ${tabletDevice({ display: "none" })}
 `;
 const SearchButton = styled.button`
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,6 +64,7 @@ const SearchButton = styled.button`
     cursor: pointer;
     opacity: 0.5;
   }
+  ${tabletDevice({ width: "50px", border: "1px solid" })}
 `;
 
 const SearchedResultWrapper = styled.div`
@@ -146,7 +151,7 @@ const SearchField = () => {
       />
       {isOpenSearchResult && (
         <SearchedResultWrapper>
-          {inputValue !== ""
+          {inputValue
             ? searchedProduct.map((product) => (
                 <React.Fragment key={product._id}>
                   <SearchedResult to={`/product/${product._id}`}>
@@ -165,6 +170,17 @@ const SearchField = () => {
       <SearchButton>
         <SearchIcon />
       </SearchButton>
+      {inputValue && (
+        <CloseIcon
+          sx={{
+            position: "absolute",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            right: "7%",
+          }}
+          onClick={() => setInputValue("")}
+        />
+      )}
     </Container>
   );
 };

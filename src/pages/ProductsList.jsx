@@ -4,7 +4,7 @@ import Announcement from "./../components/Announcement";
 import Products from "./../components/PopularProducts/Products";
 import NewsLetter from "./../components/NewsLetter";
 import Footer from "./../components/Footer";
-import { mobileDevice } from "../responsive";
+import { mobileDevice } from "../utilities/responsive";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 

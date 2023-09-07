@@ -12,10 +12,10 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUpdate } from "../../../redux/Slice/UserSlice";
 import { ErrorHandler, InputWrapper } from "../../../pages/Login";
 import PasswordUpdate from "./PasswordUpdate";
-import SetProfileContext from "../../../SetProfileContext";
+import SetProfileContext from "../../../utilities/SetProfileContext";
+import { fetchUpdate } from './../../../redux/Slice/apiCalled';
 
 const style = {
   position: "absolute",
@@ -33,6 +33,7 @@ const style = {
 
 const UpdateProfile = ({ open, handleClose }) => {
   const [profileUrl, setProfileUrl] = useState("");
+  const { token } = useSelector((state) => state.login);
   const {
     register,
     formState: { errors },
@@ -61,16 +62,19 @@ const UpdateProfile = ({ open, handleClose }) => {
   };
 
   const onSubmit = (update) => {
-    dispatch(
-      fetchUpdate({
-        profileUrl: profileUrl,
-        userId: _id,
-        username: update.username,
-        email: update.email,
-        password: update.password,
-      })
-    );
-    reset();
+    const updateObj = {
+      profileUrl: profileUrl,
+      userId: _id,
+      username: update.username,
+      email: update.email,
+      password: update.password,
+    };
+    try {
+      dispatch(fetchUpdate({ updateObj, token }));
+      reset();
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   return (
@@ -147,6 +151,7 @@ const UpdateProfile = ({ open, handleClose }) => {
                     transform: "scale(0.95)",
                   },
                 }}
+                disabled={!profileUrl}
               >
                 <DoneIcon />
               </Button>
@@ -162,9 +167,11 @@ const UpdateProfile = ({ open, handleClose }) => {
                   display: "flex",
                   alignItems: "center",
                   gap: "15px",
+                  position: "relative",
                 }}
               >
                 <InputBase
+                  name="username"
                   sx={{
                     m: "10px 0",
                     fontFamily: "Quicksand, sans-serif",
@@ -180,12 +187,15 @@ const UpdateProfile = ({ open, handleClose }) => {
                   {...register("username", {
                     maxLength: {
                       value: 16,
-                      message: "Please provide a username (1-16 characters)",
+                      message:
+                        "Please provide a username maximum 16 characters",
                     },
                   })}
                 />
                 {errors?.username && (
-                  <ErrorHandler>{errors.username.message}</ErrorHandler>
+                  <ErrorHandler style={{ top: "80%", left: "5px" }}>
+                    {errors.username.message}
+                  </ErrorHandler>
                 )}
                 <Button
                   type="submit"
@@ -221,6 +231,7 @@ const UpdateProfile = ({ open, handleClose }) => {
                   display: "flex",
                   alignItems: "center",
                   gap: "15px",
+                  position: "relative",
                 }}
               >
                 <InputBase
@@ -236,6 +247,7 @@ const UpdateProfile = ({ open, handleClose }) => {
                     color: "black",
                   }}
                   placeholder="Email..."
+                  name="email"
                   {...register("email", {
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
@@ -244,7 +256,9 @@ const UpdateProfile = ({ open, handleClose }) => {
                   })}
                 />
                 {errors?.email && (
-                  <ErrorHandler>{errors.email.message}</ErrorHandler>
+                  <ErrorHandler style={{ top: "80%", left: "5px" }}>
+                    {errors.email.message}
+                  </ErrorHandler>
                 )}
                 <Button
                   type="submit"

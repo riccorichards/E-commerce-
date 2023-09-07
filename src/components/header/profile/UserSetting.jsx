@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components"
-import { mobileDevice } from '../../../responsive';
+import { mobileDevice } from '../../../utilities/responsive';
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Badge, Divider } from "@mui/material"
 import { logout } from "../../../redux/Slice/UserSlice";

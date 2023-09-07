@@ -1,5 +1,5 @@
 import { styled } from "styled-components"
-import { mobileDevice } from "../responsive";
+import { mobileDevice, tabletDevice } from "../utilities/responsive";
 const SalesStyle = styled.div`
 display: flex;
 justify-content: center;
@@ -7,6 +7,8 @@ align-items: center;
 background-color: #39574c;
 color: #fff;
 padding: 10px 0;
+
+${tabletDevice({textAlign: "center"})}
 ${mobileDevice({textAlign: "center"})}
 `;
 

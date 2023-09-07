@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
-import { mobileDevice } from "./../responsive";
+import { mobileDevice } from "./../utilities/responsive";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLogin } from "../redux/Slice/UserSlice";
+import { fetchLogin } from "../redux/Slice/apiCalled";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -20,7 +20,7 @@ const Conteiner = styled.div`
 
 const Wrapper = styled.div`
   background-color: white;
-  width: 25%;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   ${mobileDevice({ width: "95%" })}
@@ -111,7 +111,8 @@ export const ErrorHandler = styled.p`
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { currentUser } = useSelector((state) => state.login);
+  const { token } = useSelector((state) => state.login);
+
   const {
     register,
     formState: { errors, isValid },
@@ -128,10 +129,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (currentUser?.accessToken) {
+    if (token) {
       navigate("/");
     }
-  }, [currentUser, navigate]);
+  }, [token, navigate]);
 
   return (
     <Conteiner>
@@ -155,6 +156,7 @@ const Login = () => {
           </InputWrapper>
           <InputWrapper>
             <Input
+              type="password"
               placeholder="Password"
               {...register("password", {
                 required: "Password is required",
